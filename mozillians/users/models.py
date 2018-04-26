@@ -597,8 +597,10 @@ class UserProfile(UserProfilePrivacyModel):
                   ExternalAccount.objects.filter(user=self, type=ExternalAccount.TYPE_EMAIL)]
         emails.append(self.email)
 
-        email_exists = any([email for email in emails
-                            if email.split('@')[1] in settings.AUTO_VOUCH_DOMAINS])
+        email_exists = any(
+            [email for email in emails
+             if '@' in email and email.split('@')[1] in settings.AUTO_VOUCH_DOMAINS]
+        )
         if email_exists and not self.vouches_received.filter(
                 description=settings.AUTO_VOUCH_REASON, autovouch=True).exists():
             self.vouch(None, settings.AUTO_VOUCH_REASON, autovouch=True)

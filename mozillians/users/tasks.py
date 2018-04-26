@@ -340,7 +340,7 @@ def index_all_profiles():
 
     rebuild_options['using'] = [ES_CONN_CURR]
 
-    # Rebuild index in ES_INDEX_TMP
+    # Rebuild index in ES_INDEX_CURR
     call_command('rebuild_index', **rebuild_options)
 
     # Link `default` index to current
