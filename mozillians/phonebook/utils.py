@@ -7,7 +7,6 @@ from anytree import Node
 from anytree.exporter import DictExporter
 
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from mozillians.phonebook.models import Invite
 from mozillians.users.models import IdpProfile
@@ -97,6 +96,7 @@ def create_orgchart():
 def get_profile_link_by_email(email):
     try:
         idp_profile = IdpProfile.objects.get(email=email)
-        return idp_profile.profile.get_absolute_url()
-    except (ObjectDoesNotExist, MultipleObjectsReturned):
+    except (IdpProfile.DoesNotExist, IdpProfile.MultipleObjectsReturned):
         return "#"
+    else:
+        return idp_profile.profile.get_absolute_url()
